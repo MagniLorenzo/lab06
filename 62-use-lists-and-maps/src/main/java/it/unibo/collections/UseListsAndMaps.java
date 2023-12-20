@@ -68,7 +68,7 @@ public final class UseListsAndMaps {
         }
         time = System.nanoTime() - time;
         var millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Inserire 100000 elementi in un AllayList ha richiesto" + time + "ns (" + millis + "ms)");
+        System.out.println("Inserire 100000 elementi in un AllayList ha richiesto " + time + "ns (" + millis + "ms)");
 
         time = System.nanoTime();
         for (int i = 0; i <= 100000; i++) {
@@ -76,7 +76,7 @@ public final class UseListsAndMaps {
         }
         time = System.nanoTime() - time;
         millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Inserire 100000 elementi in una LinkedList ha richiesto" + time + "ns (" + millis + "ms)");
+        System.out.println("Inserire 100000 elementi in una LinkedList ha richiesto " + time + "ns (" + millis + "ms)");
 
         /*
          * 6) Measure the performance of reading 1000 times an element whose
@@ -92,7 +92,7 @@ public final class UseListsAndMaps {
         }
         time = System.nanoTime() - time;
         millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Leggere 1000 volte l'elemte centrale in un ArrayList con" + aList.size() + " ha richiesto"
+        System.out.println("Leggere 1000 volte l'elemte centrale in un ArrayList con " + aList.size() + " ha richiesto"
                 + time + "ns (" + millis + "ms)");
 
         middle = lList.size() / 2;
@@ -102,7 +102,7 @@ public final class UseListsAndMaps {
         }
         time = System.nanoTime() - time;
         millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Leggere 1000 volte l'elemte centrale in una LinkedList con" + lList.size() + " ha richiesto"
+        System.out.println("Leggere 1000 volte l'elemte centrale in una LinkedList con " + lList.size() + " ha richiesto"
                 + time + "ns (" + millis + "ms)");
 
         /*
