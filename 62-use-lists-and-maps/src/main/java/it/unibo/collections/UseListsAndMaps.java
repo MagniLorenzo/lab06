@@ -62,19 +62,11 @@ public final class UseListsAndMaps {
          * using the previous lists. In order to measure times, use as example
          * TestPerformance.java.
          */
-        long time = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            aList.add(0, i);
-        }
-        time = System.nanoTime() - time;
+        long time = calculateTimePerInsertion(aList, 100000, 0);
         var millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println("Inserire 100000 elementi in un AllayList ha richiesto " + time + "ns (" + millis + "ms)");
 
-        time = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            lList.add(0, i);
-        }
-        time = System.nanoTime() - time;
+        time = calculateTimePerInsertion(lList, 100000, 0);
         millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println("Inserire 100000 elementi in una LinkedList ha richiesto " + time + "ns (" + millis + "ms)");
 
@@ -84,26 +76,15 @@ public final class UseListsAndMaps {
          * LinkedList, using the collections of point 5. In order to measure
          * times, use as example TestPerformance.java.
          */
-        int middle = aList.size() / 2;
-        Integer elem;
-        time = System.nanoTime();
-        for (int i = 0; i < 1000; i++) {
-            elem = aList.get(middle);
-        }
-        time = System.nanoTime() - time;
+        time = calculateTimePerReading(aList, 1000, aList.size() / 2);
         millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println("Leggere 1000 volte l'elemte centrale in un ArrayList con " + aList.size() + " ha richiesto"
                 + time + "ns (" + millis + "ms)");
 
-        middle = lList.size() / 2;
-        time = System.nanoTime();
-        for (int i = 0; i < 1000; i++) {
-            elem = lList.get(middle);
-        }
-        time = System.nanoTime() - time;
+        time = calculateTimePerReading(lList, 1000, lList.size() / 2);
         millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println("Leggere 1000 volte l'elemte centrale in una LinkedList con " + lList.size() + " ha richiesto"
-                + time + "ns (" + millis + "ms)");
+                        + time + "ns (" + millis + "ms)");
 
         /*
          * 7) Build a new Map that associates to each continent's name its
@@ -138,5 +119,22 @@ public final class UseListsAndMaps {
             worldPopulation += num;
         }
         System.out.println("La popolazione mondiale è: " + worldPopulation);
+    }
+
+    private static long calculateTimePerInsertion(final List<Integer> coll, int nElem, int pos) {
+        long time = System.nanoTime();
+        for (int i = 0; i < nElem; i++) {
+            coll.add(pos, i);
+        }
+        return System.nanoTime() - time;
+    }
+
+    private static long calculateTimePerReading(final List<Integer> coll, int nReading, int pos) {
+        Integer elem;
+        long time = System.nanoTime();
+        for (int i = 0; i < nReading; i++) {
+            elem = coll.get(pos);
+        }
+        return System.nanoTime() - time;
     }
 }
