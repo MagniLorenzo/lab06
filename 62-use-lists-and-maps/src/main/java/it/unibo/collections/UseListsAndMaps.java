@@ -63,7 +63,7 @@ public final class UseListsAndMaps {
          * TestPerformance.java.
          */
         long time = System.nanoTime();
-        for (int i = 0; i <= 100000; i++) {
+        for (int i = 0; i < 100000; i++) {
             aList.add(0, i);
         }
         time = System.nanoTime() - time;
@@ -71,7 +71,7 @@ public final class UseListsAndMaps {
         System.out.println("Inserire 100000 elementi in un AllayList ha richiesto " + time + "ns (" + millis + "ms)");
 
         time = System.nanoTime();
-        for (int i = 0; i <= 100000; i++) {
+        for (int i = 0; i < 100000; i++) {
             lList.add(0, i);
         }
         time = System.nanoTime() - time;
