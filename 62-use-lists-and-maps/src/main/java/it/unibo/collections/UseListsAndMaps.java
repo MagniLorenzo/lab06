@@ -44,7 +44,7 @@ public final class UseListsAndMaps {
          */
         final Integer tmp = aList.get(0);
         aList.set(0, aList.get(aList.size() - 1));
-        aList.set(aList.size(), tmp);
+        aList.set(aList.size() - 1, tmp);
 
         /*
          * 4) Using a single for-each, print the contents of the arraylist.
