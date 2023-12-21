@@ -78,12 +78,12 @@ public final class UseListsAndMaps {
          */
         time = calculateTimePerReading(aList, 1000, aList.size() / 2);
         millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Leggere 1000 volte l'elemte centrale in un ArrayList con " + aList.size() + " ha richiesto"
+        System.out.println("Leggere 1000 volte l'elemte centrale in un ArrayList con " + aList.size() + " ha richiesto "
                 + time + "ns (" + millis + "ms)");
 
         time = calculateTimePerReading(lList, 1000, lList.size() / 2);
         millis = TimeUnit.NANOSECONDS.toMillis(time);
-        System.out.println("Leggere 1000 volte l'elemte centrale in una LinkedList con " + lList.size() + " ha richiesto"
+        System.out.println("Leggere 1000 volte l'elemte centrale in una LinkedList con " + lList.size() + " ha richiesto "
                         + time + "ns (" + millis + "ms)");
 
         /*
@@ -130,10 +130,9 @@ public final class UseListsAndMaps {
     }
 
     private static long calculateTimePerReading(final List<Integer> coll, int nReading, int pos) {
-        Integer elem;
         long time = System.nanoTime();
         for (int i = 0; i < nReading; i++) {
-            elem = coll.get(pos);
+            coll.get(pos);
         }
         return System.nanoTime() - time;
     }
