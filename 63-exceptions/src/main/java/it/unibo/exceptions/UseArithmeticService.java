@@ -52,6 +52,7 @@ public final class UseArithmeticService {
         try {
             server.sendData(message);
         } catch (IOException e) {
+            System.out.println(e);
             retrySendOnNetworkError(server, message);
         }
     }
@@ -66,6 +67,7 @@ public final class UseArithmeticService {
         try {
             results = server.receiveResponse();
         } catch (IOException e) {
+            System.out.println(e);
             results = retryReceiveOnNetworkError(server);
         }
         return results;
