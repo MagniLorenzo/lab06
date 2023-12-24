@@ -8,8 +8,7 @@ public class NetworkException extends IOException {
     private static final String DEFAULT_MESSAGE = "Network error: no response";
 
     public NetworkException() {
-        super();
-        this.msg = DEFAULT_MESSAGE;
+        this(DEFAULT_MESSAGE);
     }
 
     public NetworkException(final String message) {
