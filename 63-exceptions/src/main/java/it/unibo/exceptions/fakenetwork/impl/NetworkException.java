@@ -18,7 +18,7 @@ public class NetworkException extends IOException {
     }
 
     public String toString() {
-        String str = msg + "\n" + super.toString();
+        String str = msg + "\n";
         return str;
     }
 
