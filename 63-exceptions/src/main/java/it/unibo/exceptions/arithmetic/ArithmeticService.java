@@ -87,14 +87,32 @@ public final class ArithmeticService {
                 }
             }
         }
-        final var finalResult = commandQueue.get(0);
-        final var possibleException = nullIfNumberOrException(finalResult);
-        if (possibleException != null) {
-            // System.out.println("Invalid result of operation: " + finalResult);
-            final String msg = "Invalid result of operation: " + finalResult;
-            throw new IllegalStateException(msg, possibleException);
+        /*
+         * final var finalResult = commandQueue.get(0);
+         * final var possibleException = nullIfNumberOrException(finalResult);
+         * if (possibleException != null) {
+         * // System.out.println("Invalid result of operation: " + finalResult);
+         * final String msg = "Invalid result of operation: " + finalResult;
+         * throw new IllegalStateException(msg, possibleException);
+         * }
+         * return finalResult;
+         */
+        
+        try {
+            final var finalResult = commandQueue.get(0);
+            final var possibleException = nullIfNumberOrException(finalResult);
+            if (possibleException != null) {
+                // System.out.println("Invalid result of operation: " + finalResult);
+                final String msg = "Invalid result of operation: " + finalResult;
+                throw new IllegalStateException(msg, possibleException);
+            }
+            return finalResult;
+        } catch (IllegalStateException e) {
+            throw e;
+        } finally {
+            commandQueue.clear();
         }
-        return finalResult;
+
         /*
          * The commandQueue should be cleared, no matter what, when the method exits
          * But how?
@@ -113,15 +131,17 @@ public final class ArithmeticService {
             throw new IllegalStateException(msg);
         }
         if (commandQueue.size() < operatorIndex + 1) {
-            //System.out.println("Missing right operand: " + commandQueue);
+            // System.out.println("Missing right operand: " + commandQueue);
             final String msg = "Missing right operand: " + commandQueue;
             throw new IllegalStateException(msg);
         }
         final var rightOperand = commandQueue.remove(operatorIndex + 1);
         final var leftOperand = commandQueue.remove(operatorIndex - 1);
         if (KEYWORDS.contains(rightOperand) || KEYWORDS.contains(leftOperand)) {
-            //System.out.println("Expected a number, but got " + leftOperand + " and " + rightOperand + " in " + commandQueue);
-            final String msg = "Expected a number, but got " + leftOperand + " and " + rightOperand + " in " + commandQueue;
+            // System.out.println("Expected a number, but got " + leftOperand + " and " +
+            // rightOperand + " in " + commandQueue);
+            final String msg = "Expected a number, but got " + leftOperand + " and " + rightOperand + " in "
+                    + commandQueue;
             throw new IllegalStateException(msg);
         }
         final var right = parseDouble(rightOperand);
@@ -133,10 +153,10 @@ public final class ArithmeticService {
             case TIMES -> left * right;
             case DIVIDED -> left / right;
             default -> {
-                //System.out.println("Unknown operand " + operand);
+                // System.out.println("Unknown operand " + operand);
                 final String msg = "Unknown operand " + operand;
                 throw new IllegalStateException(msg);
-                //yield Double.NaN;
+                // yield Double.NaN;
             }
         };
         commandQueue.set(operatorIndex - 1, Double.toString(result));
