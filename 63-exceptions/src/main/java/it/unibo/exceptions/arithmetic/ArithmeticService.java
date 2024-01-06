@@ -97,7 +97,7 @@ public final class ArithmeticService {
          * }
          * return finalResult;
          */
-        
+
         try {
             final var finalResult = commandQueue.get(0);
             final var possibleException = nullIfNumberOrException(finalResult);
@@ -107,8 +107,6 @@ public final class ArithmeticService {
                 throw new IllegalStateException(msg, possibleException);
             }
             return finalResult;
-        } catch (IllegalStateException e) {
-            throw e;
         } finally {
             commandQueue.clear();
         }
