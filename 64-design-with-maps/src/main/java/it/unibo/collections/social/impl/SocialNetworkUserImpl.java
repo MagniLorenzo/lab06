@@ -105,11 +105,13 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        try {
-            final List<U> usersInGroup = List.copyOf(this.followedGroup.get(groupName));
+        Objects.requireNonNull(groupName);
+        final List<U> usersInGroup = new ArrayList<>();
+        if (this.followedGroup.get(groupName) == null) {
             return usersInGroup;
-        } catch (NullPointerException e) {
-            return Collections.emptyList();
+        } else {
+            usersInGroup.addAll(this.followedGroup.get(groupName));
+            return usersInGroup;
         }
     }
 
