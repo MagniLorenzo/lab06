@@ -7,12 +7,14 @@ import it.unibo.collections.social.api.SocialNetworkUser;
 import it.unibo.collections.social.api.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -34,8 +36,11 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * Define any necessary field
      *
      * In order to save the people followed by a user organized in groups, adopt
-     * a generic-type Map:  think of what type of keys and values would best suit the requirements
+     * a generic-type Map: think of what type of keys and values would best suit the
+     * requirements
      */
+    private static final int DEFAULT_AGE = -1;
+    private final Map<String, List<U>> followedGroup;
 
     /*
      * [CONSTRUCTORS]
@@ -52,22 +57,26 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * Builds a user participating in a social network.
      *
      * @param name
-     *            the user firstname
+     *                the user firstname
      * @param surname
-     *            the user lastname
+     *                the user lastname
      * @param userAge
-     *            user's age
+     *                user's age
      * @param user
-     *            alias of the user, i.e. the way a user is identified on an
-     *            application
+     *                alias of the user, i.e. the way a user is identified on an
+     *                application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
+        this.followedGroup = new HashMap<>();
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        this(name, surname, user, DEFAULT_AGE);
+    }
 
     /*
      * [METHODS]
@@ -76,7 +85,17 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+        Objects.requireNonNull(circle);
+        Objects.requireNonNull(user);
+        List<U> listOfUsersInCircle = this.followedGroup.get(circle);
+        if (listOfUsersInCircle != null && listOfUsersInCircle.contains(user)) {
+            return false;
+        } else if (listOfUsersInCircle != null) {
+            listOfUsersInCircle.add(user);
+        } else {
+            this.followedGroup.put(circle, new ArrayList<>(Arrays.asList(user)));
+        }
+        return true;
     }
 
     /**
@@ -86,11 +105,20 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        try {
+            final List<U> usersInGroup = List.copyOf(this.followedGroup.get(groupName));
+            return usersInGroup;
+        } catch (NullPointerException e) {
+            return Collections.emptyList();
+        }
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        final List<U> followedUsers = Collections.emptyList();
+        for (final List<U> group : this.followedGroup.values()) {
+            followedUsers.addAll(group);
+        }
+        return followedUsers;
     }
 }
