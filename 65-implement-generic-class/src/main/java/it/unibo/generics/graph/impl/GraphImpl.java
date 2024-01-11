@@ -2,14 +2,12 @@ package it.unibo.generics.graph.impl;
 
 import it.unibo.generics.graph.api.Graph;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class GraphImpl<N> implements Graph<N> {
 
@@ -53,7 +51,7 @@ public class GraphImpl<N> implements Graph<N> {
      * @return a sequence of nodes connecting sources and target
      */
     public List<N> getPath(N source, N target) {
-        final Map<N, Integer> depth = new HashMap<>();
+        final Map<N, Integer> depth = new HashMap<>(this.graph.size());
         final Map<N, N> father = new HashMap<>(this.graph.size());
         final Map<N, Integer> color = new HashMap<>(this.graph.size());
         for (final N key : this.graph.keySet()) {
@@ -78,10 +76,10 @@ public class GraphImpl<N> implements Graph<N> {
             }
             color.put(actualNode, BLACK);
         }
-        final List<N> result = new ArrayList<>();
+        final List<N> result = new LinkedList<>();
         N tmpPointer = target;
         while (tmpPointer != null) {
-            result.add(tmpPointer);
+            result.add(0, tmpPointer);
             tmpPointer = father.get(tmpPointer);
         }
         return result;
