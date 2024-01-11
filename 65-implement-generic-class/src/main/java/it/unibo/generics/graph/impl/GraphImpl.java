@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class GraphImpl<N> implements Graph<N> {
 
@@ -64,6 +65,26 @@ public class GraphImpl<N> implements Graph<N> {
         father.put(source, null);
         color.put(source, GRAY);
         final Queue<N> coda = new LinkedList<>();
-        // TODO 
+        coda.add(source);
+        while (!coda.isEmpty()) {
+            final N actualNode = coda.poll();
+            for (final N node : this.graph.get(actualNode)) {
+                if (color.get(node) == WHITE) {
+                    color.put(node, GRAY);
+                    depth.put(node, depth.get(actualNode) + 1);
+                    father.put(node, actualNode);
+                    coda.add(node);
+                }
+            }
+            color.put(actualNode, BLACK);
+        }
+        final List<N> result = new ArrayList<>();
+        N tmpPointer = target;
+        while (tmpPointer != null) {
+            result.add(tmpPointer);
+            tmpPointer = father.get(tmpPointer);
+        }
+        return result;
     }
+
 }
