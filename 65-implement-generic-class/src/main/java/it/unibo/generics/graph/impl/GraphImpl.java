@@ -5,6 +5,7 @@ import it.unibo.generics.graph.api.PathCalculatorBehavior;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,19 +26,19 @@ public class GraphImpl<N> implements Graph<N> {
 
     public void addNode(N node) {
         if (node != null) {
-            this.graph.put(node, new HashSet<>());
+            this.graph.putIfAbsent(node, new HashSet<>());
         }
     }
 
     public void addEdge(N source, N target) {
-        if (source != null && target != null) {
+        if (graph.containsKey(source) && graph.containsKey(target)) {
             final Set<N> adjacencyList = this.graph.get(source);
             adjacencyList.add(target);
         }
     }
 
     public Set<N> nodeSet() {
-        return this.graph.keySet();
+        return new HashSet<>(graph.keySet());
     }
 
     public Set<N> linkedNodes(N node) {
@@ -54,7 +55,11 @@ public class GraphImpl<N> implements Graph<N> {
      * @return a sequence of nodes connecting sources and target
      */
     public List<N> getPath(N source, N target) {
-        return pathCalculator.getPath(source, target, graph);
+        if (graph.containsKey(source) && graph.containsKey(target)) {
+            return pathCalculator.getPath(source, target, graph);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
 }
