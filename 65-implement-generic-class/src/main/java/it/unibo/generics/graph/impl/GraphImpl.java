@@ -15,11 +15,11 @@ public class GraphImpl<N> implements Graph<N> {
     private PathCalculatorBehavior<N> pathCalculator;
 
     public GraphImpl() {
-        this.graph = new HashMap<>();
+        this(new BreadthFirst<>());
     }
 
     public GraphImpl(final PathCalculatorBehavior<N> pathCalculatorBehavior) {
-        this();
+        this.graph = new HashMap<>();
         this.pathCalculator = pathCalculatorBehavior;
     }
 
