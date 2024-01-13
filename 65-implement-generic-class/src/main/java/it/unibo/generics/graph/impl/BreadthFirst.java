@@ -16,15 +16,12 @@ public class BreadthFirst<N> implements PathCalculatorBehavior<N> {
     private static final Integer GRAY = 2;
 
     public List<N> getPath(N source, N target, Map<N, Set<N>> graph) {
-        final Map<N, Integer> depth = new HashMap<>(graph.size());
         final Map<N, N> father = new HashMap<>(graph.size());
         final Map<N, Integer> color = new HashMap<>(graph.size());
         for (final N key : graph.keySet()) {
-            depth.put(key, 0);
             father.put(key, null);
             color.put(key, WHITE);
         }
-        depth.put(source, 0);
         father.put(source, null);
         color.put(source, GRAY);
         final Queue<N> coda = new LinkedList<>();
@@ -34,7 +31,6 @@ public class BreadthFirst<N> implements PathCalculatorBehavior<N> {
             for (final N node : graph.get(actualNode)) {
                 if (color.get(node) == WHITE) {
                     color.put(node, GRAY);
-                    depth.put(node, depth.get(actualNode) + 1);
                     father.put(node, actualNode);
                     coda.add(node);
                 }
